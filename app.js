@@ -8,38 +8,47 @@ const fs = require ("fs");
 const util = require ("util");
 const writeFileAsync = util.promisify(fs.writeFile);
 
-let res;
-let html
+let teamName;
+
 //when to use const when to use let?????
 //ask user their role is
-function init(){
-    try{
-        res = promptUser(questions.titleQuestion);
-        return res;
+inquirer
+    .prompt(questions.titleQuestion)
+    .then (function(res){
         if (res === "Manager"){
-            promptUser(questions.managerQuestions);
+            getManager(questions.managerQuestions);
         }
         if (res === "Engineer"){
-            promptUser(questions.engineerQuestions);
+            getEngineer(questions.engineerQuestions);
         }
         if (res === "Intern"){
-            promptUser(questions.internQuestions);
+            getUser(questions.internQuestions);
         }
-    
-    }catch(err){
-        console.log(err);
-    }
-}
+    });
 
-function getManager(){
-    inquirer.prompt(questions.mangerQuestions)
+function getManager(ques){
+    inquirer
+    .prompt(ques)
     .then (function(res){
         teamName = res.teamName;
-        let manager = new 
-    })
+        let managerName = res.managerName;
+        let managerID = res. managerID;
+        let managerEmail = res. managerEmail;
+        let managerRoomNo = res.managerRoomNumber;
+
+        let managerInfo = {
+            team: teamName,
+            name: managerName,
+            id: managerID,
+            email: managerEmail,
+            room: managerRoomNo
+        }
+        writeToHTML(managerInfo);
+    });
 }
 
-function generateHTML(res){
-    return html
+function writeToHTML(res){
+    let managerHTML = manager(res);
+    writeFileAsync(`$(teamName)_Profile.html`),managerHTML);
+    console.log("Successfully wrote to html!");
 }
-init();
