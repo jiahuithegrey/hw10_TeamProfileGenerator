@@ -1,4 +1,3 @@
-const employee = require ("./lib/Employee");
 const manager = require ("./lib/Manager");
 const engineer = require ("./lib/Engineer");
 const intern = require ("./lib/Intern");
@@ -9,7 +8,6 @@ const util = require ("util");
 const writeFileAsync = util.promisify(fs.writeFile);
 
 let teamName;
-
 //when to use const when to use let?????
 //ask user their role is
 inquirer
@@ -22,7 +20,10 @@ inquirer
             getEngineer(questions.engineerQuestions);
         }
         if (res === "Intern"){
-            getUser(questions.internQuestions);
+            getIntern(questions.internQuestions);
+        }
+        if (res === "done"){
+            writeToHTML();
         }
     });
 
@@ -31,6 +32,7 @@ function getManager(ques){
     .prompt(ques)
     .then (function(res){
         teamName = res.teamName;
+        let title = "Manager";
         let managerName = res.managerName;
         let managerID = res. managerID;
         let managerEmail = res. managerEmail;
@@ -38,6 +40,7 @@ function getManager(ques){
 
         let managerInfo = {
             team: teamName,
+            title: title,
             name: managerName,
             id: managerID,
             email: managerEmail,
@@ -46,9 +49,45 @@ function getManager(ques){
         writeToHTML(managerInfo);
     });
 }
-
+const generateHTML = require("./lib/generateMainHTML.js");
 function writeToHTML(res){
-    let managerHTML = manager(res);
-    writeFileAsync(`$(teamName)_Profile.html`),managerHTML);
+    let html = generateHTML(res);
+    writeFileAsync(`${teamName}_Profile.html`,html);
     console.log("Successfully wrote to html!");
 }
+// function getEngineer(ques){
+//     inquirer
+//     .prompt(ques)
+//     .then (function(res){
+//         let engineerName = res.engineerName;
+//         let engineerID = res. engineerID;
+//         let engineerEmail = res. engineerEmail;
+//         let repoName = res.repoName;
+
+//         let engineerInfo = {
+//             name: engineerName,
+//             id: engineerID,
+//             email: engineerEmail,
+//             repo: repoName
+//         }
+//         writeToHTML(engineerInfo);
+//     });
+// }
+// function getIntern(ques){
+//     inquirer
+//     .prompt(ques)
+//     .then (function(res){
+//         let internName = res.internName;
+//         let internID = res. internID;
+//         let internEmail = res. internEmail;
+//         let internSchool = res.internSchool;
+
+//         let internInfo = {
+//             name: internName,
+//             id: internID,
+//             email: internEmail,
+//             repo: internName
+//         }
+//         writeToHTML(internInfo);
+//     });
+// }
