@@ -7,9 +7,12 @@ const fs = require ("fs");
 const util = require ("util");
 const writeFileAsync = util.promisify(fs.writeFile);
 
-let teamName;
 //when to use const when to use let?????
+//how to make a cirle till user chooses done?
 //ask user their role is
+init();
+
+function init(){
 inquirer
     .prompt(questions.titleQuestion)
     .then (function(res){
@@ -22,10 +25,13 @@ inquirer
         if (res === "Intern"){
             getIntern(questions.internQuestions);
         }
-        if (res === "done"){
+        if (res === "Done"){
             writeToHTML();
         }
     });
+} 
+
+let teamName;
 
 function getManager(ques){
     inquirer
@@ -47,13 +53,18 @@ function getManager(ques){
             room: managerRoomNo
         }
         writeToHTML(managerInfo);
+        init(); //start a new round of questions
+    }, function (err){
+        console.log(err);
     });
 }
+
 const generateHTML = require("./lib/generateMainHTML.js");
+
 function writeToHTML(res){
     let html = generateHTML(res);
     writeFileAsync(`${teamName}_Profile.html`,html);
-    console.log("Successfully wrote to html!");
+    //console.log("Successfully wrote to html!");
 }
 // function getEngineer(ques){
 //     inquirer
@@ -71,6 +82,7 @@ function writeToHTML(res){
 //             repo: repoName
 //         }
 //         writeToHTML(engineerInfo);
+//         init();
 //     });
 // }
 // function getIntern(ques){
@@ -89,5 +101,6 @@ function writeToHTML(res){
 //             repo: internName
 //         }
 //         writeToHTML(internInfo);
+//         init();
 //     });
 // }
