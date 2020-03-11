@@ -4,10 +4,10 @@ const util = require("util");
 const generateHtml = require("./lib/generateHtml.js");
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const manager = require("./lib/Manager.js");
-const engineer = require("./lib/Engineer.js");
-const intern = require("./lib/Intern.js");
-const questions = require("./lib/Questions.js");
+const Manager = require("./lib/Manager.js");
+const Engineer = require("./lib/Engineer.js");
+const Intern = require("./lib/Intern.js");
+const questions = require("./lib/Questions");
 
 // const path = require("path");
 // const outputPath = path.resolve(__dirname, "output", "team.html");
@@ -58,7 +58,7 @@ function getManager(ques) {
 
 function getEngineer(ques) {
   inquirer.prompt(ques).then(function(res) {
-    const engineer = new engineer(
+    const engineer = new Engineer(
       res.engineerName,
       res.engineerID,
       res.engineerEmail,
@@ -73,7 +73,7 @@ function getEngineer(ques) {
 
 function getIntern(ques) {
   inquirer.prompt(ques).then(function(res) {
-    const intern = new intern(
+    const intern = new Intern(
       res.internName,
       res.internID,
       res.internEmail,
@@ -115,7 +115,7 @@ let html = `
               <div class="row justify-content-center" id="cards">
   `;
 
-let close = `
+let end = `
         </div> 
         </div> 
       </body>
@@ -126,7 +126,7 @@ function writeToHTML() {
     const card = generateHtml(teamArr[i]);
     html += card;
   }
-  html += close;
+  html += end;
   console.log("Successfully wrote to html!");
   writeFileAsync(`./output/${teamName}_Profile.html`, html);
 }
