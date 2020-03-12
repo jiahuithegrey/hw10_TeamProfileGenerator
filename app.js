@@ -43,8 +43,7 @@ function getManager(ques) {
       );
       teamArr.push(manager);
 
-      //   writeToHTML(manager);
-      init(); //start a new round of questions
+      init(); 
     },
     function(err) {
       console.log(err);
@@ -58,11 +57,10 @@ function getEngineer(ques) {
       res.engineerName,
       res.engineerID,
       res.engineerEmail,
-      res.repoName
+      res.githubName
     );
     teamArr.push(engineer);
 
-    // writeToHTML(engineer);
     init();
   });
 }
@@ -73,11 +71,10 @@ function getIntern(ques) {
       res.internName,
       res.internID,
       res.internEmail,
-      res.repoName
+      res.school
     );
     teamArr.push(intern);
 
-    // writeToHTML(intern);
     init();
   });
 }

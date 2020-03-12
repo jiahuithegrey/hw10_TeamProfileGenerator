@@ -1,11 +1,4 @@
-const generateCard = require("./generateCard.js");
 
-function generateHtml(team) {
-  let cardHtml = "";
-  for (let member of team) {
-    cardHtml += generateCard(member);
-  }
-  return `
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -27,17 +20,33 @@ function generateHtml(team) {
             <div class="container-fluid bg-primary text-white text-center">
                 <div class="row d-flex justify-content-around">
                     <div class="col-12">
-                        <h3 class="display-4">My Team</h3>
+                        <h2 class="display-4">My Team</h2>
                     </div>
                 </div>
             </div>
 
             <div class="container">
                 <div class="row">
-                    ${cardHtml}   
+                    
+    <div class="col-md-4">
+      <div class="card my-4 rounded shadow">
+        <div class="card-header">
+          <h4>Jacob</h4>
+          <h5>
+            <i class="fas undefined"></i> 001
+          </h5>
+        </div>
+        <div class="card-body px-2">
+          <ul class="list-group list-group-flush border">
+            <li class="list-group-item px-2">ID: 1</li>
+            <li class="list-group-item px-2">Email: jacob@gmail.com</li>
+            <li class="list-group-item px-2">undefined: undefined</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+     
                 </div>
             </div>
         </body>
-    </html>`;
-}
-module.exports = generateHtml;
+    </html>
