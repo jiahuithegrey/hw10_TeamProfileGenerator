@@ -1,17 +1,13 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
-const generateHtml = require("./lib/generateHtml.js");
+const generateMainHtml = require("./lib/generateMainHtml.js");
 const writeFileAsync = util.promisify(fs.writeFile);
 
 const Manager = require("./lib/Manager.js");
 const Engineer = require("./lib/Engineer.js");
 const Intern = require("./lib/Intern.js");
 const questions = require("./lib/Questions");
-
-// const path = require("path");
-// const outputPath = path.resolve(__dirname, "output", "team.html");
-// const render = require("./lib/htmlRenderer");
 
 init();
 
@@ -47,7 +43,7 @@ function getManager(ques) {
       );
       teamArr.push(manager);
 
-      writeToHTML(manager);
+      //   writeToHTML(manager);
       init(); //start a new round of questions
     },
     function(err) {
@@ -66,7 +62,7 @@ function getEngineer(ques) {
     );
     teamArr.push(engineer);
 
-    writeToHTML(engineer);
+    // writeToHTML(engineer);
     init();
   });
 }
@@ -81,52 +77,14 @@ function getIntern(ques) {
     );
     teamArr.push(intern);
 
-    writeToHTML(intern);
+    // writeToHTML(intern);
     init();
   });
 }
 
-let html = `
-      <!DOCTYPE html>
-      <html lang="en">
-      <head>
-      <meta charset="UTF-8">
-      <title>Team</title>
-      <!-- Latest compiled and minified CSS & JS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-      <script src="https://code.jquery.com/jquery.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-      <script src="https://kit.fontawesome.com/4d07055d3e.js" crossorigin=“anonymous”></script>
-      <style>
-          .shadow {
-              box-shadow: 5px 5px 5px grey;
-          }
-      </style>
-  </head>
-  <body>
-      <div class="container-fluid p-0 mb-0">
-          <div class="jumbotron jumbotron-fluid bg-danger text-light">
-              <div class="container text-center">
-                  <h1 class="display-4">My Team</h1>
-              </div>
-          </div>
-          <div class="container">
-              <div class="row justify-content-center" id="cards">
-  `;
-
-let end = `
-        </div> 
-        </div> 
-      </body>
-    </html>;`;
-
 function writeToHTML() {
-  for (let i = 0; i < teamArr.length; i++) {
-    const card = generateHtml(teamArr[i]);
-    html += card;
-  }
-  html += end;
+  generateMainHtml(teamArr);
   console.log("Successfully wrote to html!");
-  writeFileAsync(`./output/${teamName}_Profile.html`, html);
+  let html = generateMainHtml(teamArr);
+  writeFileAsync(`./output/${teamName}_Profile.html`,html);
 }
